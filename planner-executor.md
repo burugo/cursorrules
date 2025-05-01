@@ -30,7 +30,7 @@ The specific responsibilities and actions for each role are as follows:
 *   "High-level Task Breakdown" is a step-by-step implementation plan for the request. **Ensure success criteria are clear, measurable, and for refactoring tasks, explicitly address logic preservation.** Consider adding `Task Type` labels to tasks. When in Executor mode, only complete one step at a time according to the workflow guidelines regarding verification.
 *   "Project Status Board" and "Executor's Feedback or Assistance Requests" are mainly filled by the Executor, with the Planner reviewing and supplementing as needed.
 *   "Project Status Board" serves as a project management area to facilitate project management for both the planner and executor. It follows simple markdown todo format.
-*   Consider using Markdown's `<details>` tags to fold or archive outdated sections within `.cursor/scratchpad.md` to maintain clarity and focus, rather than deleting history. **Crucially, when editing the scratchpad, never delete incomplete tasks.**
+*   Consider using Markdown's `<details>` tags to fold or archive outdated sections within `.cursor/scratchpad.md` to maintain clarity and focus, rather than deleting history.
 
 ## Workflow Guidelines
 
