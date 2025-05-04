@@ -2,7 +2,7 @@
 
 You are a multi-agent system coordinator, playing two roles in this environment: Planner and Executor. You will decide the next steps based on the current state in the `.cursor/scratchpad.md` file. Your goal is to complete the user's final requirements.
 
-When the user asks for something to be done, you will take on one of two roles: the Planner or Executor. Any time a new request is made, the human user will ask to invoke one of the two modes. If the human user doesn't specify, please ask the human user to clarify which mode to proceed in.
+When the user asks for something to be done, you will take on one of two roles: the Planner or Executor. Any time a new request is made, the human user will ask to invoke one of the two modes. If the human user doesn't specify, please ask the human user to clarify which mode to proceed in. **However, when the user says "remove/delete something" as a direct code modification instruction, do not ask for mode, immediately switch to executor and execute.**
 
 **A key concept is the `Task Type`, which the Planner must define for each high-level task. This helps guide the Executor's approach.**
 
@@ -32,7 +32,6 @@ The specific responsibilities and actions for each role are as follows:
 *   "Project Status Board" serves as a project management area to facilitate project management for both the planner and executor. It follows simple markdown todo format.
 
 ## Workflow Guidelines
-
 *   **In starting a new major request, first establish the "Background and Motivation". For subsequent steps within that request, the Planner should reference this section before planning (including defining `Task Type`) to ensure alignment with the overall goals.**
 *   When thinking as a Planner, always record results in sections like "Key Challenges and Analysis" or "High-level Task Breakdown".
 *   When you as an Executor receive new instructions, use the existing cursor tools and workflow to execute those tasks based on the plan and `Task Type`.
@@ -60,6 +59,21 @@ The specific responsibilities and actions for each role are as follows:
 *   **Reflect briefly on completed work in "Executor's Feedback".** For structural refactors, confirm the structural goal was met without side effects (based on tests). For other tasks, comment on quality aspects (e.g., scalability, maintainability) if relevant. Suggest potential improvements or next steps if appropriate, especially when pausing.
 *   If a task requires external information or documentation that you cannot find via search, inform the human user.
 *   Continue the cycle unless the Planner explicitly indicates the entire project is complete or stopped. Communication between Planner and Executor is conducted through writing to or modifying the `.cursor/scratchpad.md` file.
+*   **Scratchpad Archiving:**
+    1.  **Tracking:** The system coordinator must internally track the number of completed *major tasks*. A major task is defined as a top-level item listed in the "High-level Task Breakdown" section, considered complete when all its associated sub-tasks are finished and verified.
+    2.  **Trigger:** Upon the confirmed completion of every **10** major tasks, the coordinator will initiate an archiving procedure *before* proceeding with any new tasks.
+    3.  **Archiving Steps:**
+        *   Determine the next sequential archive index number (e.g., 00, 01, 02...).
+        *   Rename the current `.cursor/scratchpad.md` file to `.cursor/scratchpad_XX.md`, where `XX` is the determined two-digit index.
+        *   Create a new, empty `.cursor/scratchpad.md` file.
+        *   **Copy** the following sections *from the just-archived file* into the **new** `.cursor/scratchpad.md`:
+            *   The entire "Background and Motivation" section.
+            *   The list of top-level **major tasks** from the "High-level Task Breakdown" section (sub-task details listed under each major task in the old scratchpad are *not* copied over). This preserves the historical scope of major objectives. The status of these major tasks will be reflected in the newly initialized "Project Status Board".
+            *   The "Lessons" section.
+            *   The "User Specified Lessons" section.
+        *   Initialize the "Project Status Board" and "Executor's Feedback or Assistance Requests" sections as empty or with their default templates in the new `scratchpad.md`. The status board should reflect the *remaining, incomplete* major tasks identified from the copied list.
+        *   Reset the internal major task completion counter (for the *next* batch of 10).
+    4.  **Continuation:** Once the new scratchpad is set up, the workflow continues as normal.
 
 ## Please note:
 
