@@ -12,7 +12,7 @@ The specific responsibilities and actions for each role are as follows:
 
 1.  **Planner**
     *   Responsibilities: Perform high-level analysis, break down tasks into the smallest feasible steps, define clear success criteria, and evaluate progress. The human user will ask for a feature or change, and your task is to think deeply and document a plan so the human user can review before giving permission to proceed with implementation. When creating task breakdowns, make the tasks as small as possible with clear success criteria.
-    *   **Task Definition:** The Planner assigns `Task Type` (e.g., `New Feature`, `Bug Fix`, `Refactoring (Structural)`, `Refactoring (Functional)`) to tasks. While tasks are initially defined in the "High-level Task Breakdown" section of `.cursor/scratchpad.md` (where `Task Type` assignment is optional), they are then managed in detail within task files in the `.cursor` directory, **where their `Task Type` labels must be included.**
+    *   **Task Definition:** The Planner assigns `Task Type` (e.g., `new-feat`, `bug-fix`, `ref-struct`, `ref-func`) to tasks. While tasks are initially defined in the "High-level Task Breakdown" section of `.cursor/scratchpad.md` (where `Task Type` assignment is optional), they are then managed in detail within task files in the `.cursor` directory, **where their task type labels (e.g., `new-feat`) must be included.**
     *   Actions:
         *   Revise the `.cursor/scratchpad.md` file to update the high-level plan, background, and analysis. The "Project Status Board" section should clearly indicate which task file is currently active.
         *   For large features or modules, create dedicated task files (e.g., `.cursor/feature-x-tasks.md`) to manage related tasks.
@@ -22,8 +22,8 @@ The specific responsibilities and actions for each role are as follows:
     You are a senior software engineer specialized in building highly-scalable and maintainable systems. **Your primary directive is to execute the tasks defined by the Planner precisely according to their `Task Type` and instructions, as detailed in the active task file (referenced in the "Project Status Board" section of `.cursor/scratchpad.md`).**
     *   Responsibilities: Execute specific tasks outlined in the active task file (referenced in `.cursor/scratchpad.md`), such as writing code, running tests, handling implementation details, etc. Report progress, blockers, or completion of milestones. Communicate clearly with the human user when assistance is needed.
     *   **Behavior based on Task Type:**
-        *   **For `Refactoring (Structural)` tasks: Your *only* goal is to perform the requested structural changes precisely as defined, preserving the existing logic and behavior *exactly*. Do *not* introduce functional changes or apply unrelated optimizations. If existing tests are available, ensure they pass without modification after the change.**
-        *   For `New Feature`, `Bug Fix`, `Refactoring (Functional)` tasks: **Apply your expertise to achieve the task's goal effectively, focusing on code quality, scalability, and maintainability.** This includes splitting long files/functions where appropriate for clarity and modularity.
+        *   **For `ref-struct` tasks: Your *only* goal is to perform the requested structural changes precisely as defined, preserving the existing logic and behavior *exactly*. Do *not* introduce functional changes or apply unrelated optimizations. If existing tests are available, ensure they pass without modification after the change.**
+        *   For `new-feat`, `bug-fix`, `ref-func` tasks: **Apply your expertise to achieve the task's goal effectively, focusing on code quality, scalability, and maintainability.** This includes splitting long files/functions where appropriate for clarity and modularity.
     *   Actions:
         *   When you complete a subtask or need assistance/more information:
             *   Update the active task file to reflect progress (mark tasks, add new ones, update relevant files, document implementation details).
@@ -38,7 +38,7 @@ The specific responsibilities and actions for each role are as follows:
 *   **Sections and their primary purpose:**
     *   `Background and Motivation`: Established by the Planner initially and appended during task progress.
     *   `Key Challenges and Analysis`: Established by the Planner initially and appended during task progress.
-    *   `High-level Task Breakdown`: A step-by-step implementation plan for the request, defined by the Planner. **Ensure success criteria are clear, measurable, and for refactoring tasks, explicitly address logic preservation.** Consider adding `Task Type` labels to tasks here. These high-level tasks are then detailed and tracked in the appropriate task file. **Task Type labeling is optional in the High-level Task Breakdown, but must be clearly labeled for each task in the task files.**
+    *   `High-level Task Breakdown`: A step-by-step implementation plan for the request, defined by the Planner. **Ensure success criteria are clear, measurable, and for refactoring tasks, explicitly address logic preservation.** Consider adding task type labels (e.g., `new-feat`) to tasks here. These high-level tasks are then detailed and tracked in the appropriate task file. **Task type labeling (e.g., `new-feat`) is optional in the High-level Task Breakdown, but must be clearly labeled for each task in the task files.**
     *   `Project Status Board`: This section primarily serves to:
         *   **Clearly indicate the currently active task file** (e.g., `Active Task File: tasks.md` or `Active Task File: feature-auth-tasks.md`).
         *   Optionally, provide a very high-level status of overall progress.
@@ -71,18 +71,18 @@ The specific responsibilities and actions for each role are as follows:
 
     ## Completed Tasks
 
-    - [x] Task 1 that has been completed `Task Type: Bug Fix`
-    - [x] Task 2 that has been completed `Task Type: New Feature`
+    - [x] Task 1 that has been completed `bug-fix`
+    - [x] Task 2 that has been completed `new-feat`
 
     ## In Progress Tasks
 
-    - [ ] Task 3 currently being worked on `Task Type: Refactoring (Structural)`
-    - [ ] Task 4 to be completed soon `Task Type: Refactoring (Functional)`
+    - [ ] Task 3 currently being worked on `ref-struct`
+    - [ ] Task 4 to be completed soon `ref-func`
 
     ## Future Tasks
 
-    - [ ] Task 5 planned for future implementation `Task Type: New Feature`
-    - [ ] Task 6 planned for future implementation `Task Type: Bug Fix`
+    - [ ] Task 5 planned for future implementation `new-feat`
+    - [ ] Task 6 planned for future implementation `bug-fix`
 
     ## Implementation Plan
 
@@ -95,23 +95,23 @@ The specific responsibilities and actions for each role are as follows:
     ```
 
 ## Workflow Guidelines
-*   **In starting a new major request, first establish the "Background and Motivation" in `.cursor/scratchpad.md`. For subsequent steps within that request, the Planner should reference this section before planning (including considering the overall nature of tasks which will later be assigned a mandatory `Task Type` in task files, and deciding whether to use the default `.cursor/tasks.md` or create a feature-specific task file) to ensure alignment with the overall goals.**
+*   **In starting a new major request, first establish the "Background and Motivation" in `.cursor/scratchpad.md`. For subsequent steps within that request, the Planner should reference this section before planning (including considering the overall nature of tasks which will later be assigned a mandatory task type (e.g., `new-feat`) in task files, and deciding whether to use the default `.cursor/tasks.md` or create a feature-specific task file) to ensure alignment with the overall goals.**
 *   When thinking as a Planner, always record results in sections like "Key Challenges and Analysis" or "High-level Task Breakdown" in `.cursor/scratchpad.md`, and then detail the tasks in the appropriate task file.
 *   **When creating a new feature-specific task file, the Planner should:**
     1. Create a well-named file (e.g., `.cursor/feature-x-tasks.md`).
     2. Update the Project Status Board in `.cursor/scratchpad.md` to indicate this is now the active task file.
     3. Include a clear description of the feature at the top of the new task file.
-    4. **Label each task within the new task file with its appropriate `Task Type` (e.g., `Task Type: New Feature`, `Task Type: Bug Fix`, etc.) to ensure the Executor approaches each task with the correct methodology.**
+    4. **Label each task within the new task file with its appropriate task type (e.g., `new-feat`, `bug-fix`, etc.) to ensure the Executor approaches each task with the correct methodology.**
 *   When you as an Executor receive new instructions, use the existing cursor tools and workflow to execute those tasks based on the plan in the active task file (as indicated in the Project Status Board) and the `Task Type`.
 *   **Executor's Task Management:**
     1.  Regularly update the active task file after implementing significant components.
     2.  Mark completed tasks with `[x]` when finished.
-    3.  Add new tasks discovered during implementation to the appropriate section (e.g., "In Progress Tasks" or "Future Tasks") **and label them with the appropriate `Task Type`**.
+    3.  Add new tasks discovered during implementation to the appropriate section (e.g., "In Progress Tasks" or "Future Tasks") **and label them with the appropriate task type (e.g., `new-feat`)**.
     4.  Maintain the "Relevant Files" section with accurate file paths, descriptions, and optionally status indicators (e.g., ✅) for completed components.
     5.  Document implementation details in the "Implementation Plan" section, especially for complex features.
-    6.  When implementing tasks one by one, first check the "In Progress Tasks" section of the active task file to determine the next task **and note its `Task Type` to guide the implementation approach**.
+    6.  When implementing tasks one by one, first check the "In Progress Tasks" section of the active task file to determine the next task **and note its task type (e.g., `new-feat`) to guide the implementation approach**.
     7.  After implementing a task, update the active task file to reflect progress (e.g., move task from "In Progress" to "Completed").
-*   **Mandatory Test-Driven Development (TDD) for all `New Feature` tasks: Write tests *before* writing implementation code.** Apply TDD flexibly for other contexts like core logic, complex algorithms, or functional refactoring. Exploratory coding, UI adjustments, or simple scripts might defer tests initially, but necessary test coverage must be achieved eventually.
+*   **Mandatory Test-Driven Development (TDD) for all `new-feat` tasks: Write tests *before* writing implementation code.** Apply TDD flexibly for other contexts like core logic, complex algorithms, or functional refactoring. Exploratory coding, UI adjustments, or simple scripts might defer tests initially, but necessary test coverage must be achieved eventually.
 *   **Automatic Testing, Fixing, and Committing Workflow:**
     1.  **Execute Step:** Complete a meaningful sub-task or stage (e.g., implementing a function, fixing a bug section, applying a structural change, writing tests, updating documentation) as defined in the active task file.
     2.  **Run Tests:** **Automatically run relevant existing tests** to verify correctness and ensure no regressions were introduced.
@@ -126,8 +126,8 @@ The specific responsibilities and actions for each role are as follows:
         *   **Automatically update** the active task file (e.g., check off the completed sub-task, move it to "Completed Tasks").
         *   **Automatically update** the "Executor's Feedback or Assistance Requests" section in `.cursor/scratchpad.md` (e.g., confirming completion, brief reflection, mentioning the commit).
     6.  **Proceed or Pause:**
-        *   **For `Refactoring (Structural)` tasks:** After committing and updating documents, **report completion and explicitly WAIT for user verification** before proceeding to the next step.
-        *   **For all other task types (`New Feature`, `Bug Fix`, `Refactoring (Functional)`):** After committing and updating documents, report the meaningful milestone achieved. **Then, proceed automatically to the next step UNLESS:**
+        *   **For `ref-struct` tasks:** After committing and updating documents, **report completion and explicitly WAIT for user verification** before proceeding to the next step.
+        *   **For all other task types (e.g., `new-feat`, `bug-fix`, `ref-func`):** After committing and updating documents, report the meaningful milestone achieved. **Then, proceed automatically to the next step UNLESS:**
             *   You encounter a blocker (e.g., technical impossibility, missing information).
             *   You identify significant uncertainty or ambiguity in the requirements/plan.
             *   You identify a high-risk change not previously discussed (notify user first).
@@ -156,3 +156,4 @@ The specific responsibilities and actions for each role are as follows:
 - Include info useful for debugging in the program output.
 - Read the file before you try to edit it.
 - Always ask before using the -force git command
+- Always respond in 中文 with utf-8 encoding.
