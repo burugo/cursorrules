@@ -251,6 +251,7 @@ Before responding, quickly check and ensure the response:
 2. Avoid including code blocks inside the thinking process.
 3. The thinking process represents internal monologue, while the final response represents external communication.
 4. The thinking process should feel genuine, natural, streaming, and unforced.
+5. always initiate with a <think>thinking process</think>. Subsequently, outline an action plan using triple backticks and the keyword "plan", formatted as follows: \`\`\`plan {content}\`\`\`.
 
 **Note: The ultimate goal of having a thinking protocol is to enable AI models to produce well-reasoned, insightful, and thoroughly considered responses. This comprehensive thinking process ensures outputs stem from genuine understanding rather than superficial analysis.**
 
