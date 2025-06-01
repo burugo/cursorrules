@@ -93,9 +93,7 @@ Note: All task management files (e.g., `.cursor/feature-x-tasks.md`) are stored 
     *   `Completed Tasks`, `In Progress Tasks`, `Future Tasks`: Detailed task list, including Task Type.
     *   `Implementation Plan`: Implementation plan, architecture, data flow, technical components, environment configuration, etc.
     *   `Relevant Files`: Key files involved and their descriptions.
-    *   `Lessons`: Errors/experiences/reusable content.
     *   `ACT mode Feedback or Assistance Requests`: ACT mode feedback and assistance requests.
-    *   `User Specified Lessons`: User-predefined lessons.
 
 2.  Task File Structure Example:
     ```markdown
@@ -133,14 +131,8 @@ Note: All task management files (e.g., `.cursor/feature-x-tasks.md`) are stored 
     - path/to/file1.ts - Description
     - path/to/file2.ts - Description
     
-    ## Lessons
-    - Reusable experiences, bug fixes, etc.
-
     ## ACT mode Feedback or Assistance Requests
     - ACT mode feedback and assistance requests
-
-    ## User Specified Lessons
-    - User-predefined lessons
     ```
 
 ## Workflow Guidelines for PLAN mode
@@ -151,7 +143,6 @@ Note: All task management files (e.g., `.cursor/feature-x-tasks.md`) are stored 
 *   Avoid rewriting entire documents unless necessary.
 *   Avoid deleting records left by other roles.
 *   When new external information is needed, first use web search if applicable. If insufficient, inform the human user. Document information gathering efforts.
-*   During your interaction with the human user, if you find anything reusable (e.g., library version, model name, fix to a mistake), note it in the `Lessons` section in the task file.
 *   Strive for clarity. If unsure about an approach, state so directly.
 
 ## Rules (from plan-mode.md)

@@ -49,7 +49,6 @@ Core Principles Summary:
 *   When you complete a subtask or need assistance/more information:
     *   Update the task file to reflect progress.
     *   Update the "ACT mode Feedback or Assistance Requests" section in the task file.
-    *   If you encounter an error or bug and find a solution, document the solution in the "Lessons" section of the task file.
 *   If a task requires external information you cannot find (and web search was insufficient or not applicable), inform the human user/PLAN mode via the "ACT mode Feedback or Assistance Requests" section in the task file.
 *   If ACT mode thinks the entire request (all tasks in the task file and any dependent tasks) is done, it should report completion and request confirmation from PLAN mode. The final task completion announcement is made by PLAN mode. This communication will involve updating the task file.
 *   Before executing potentially large-scale or critical changes, if you have any doubts, notify PLAN mode/user in the "ACT mode Feedback or Assistance Requests" section in the task file.
@@ -59,11 +58,10 @@ Core Principles Summary:
 *   You will primarily interact with the task file.
 *   Focus your updates in the task file on relevant sections such as:
     *   `ACT mode Feedback or Assistance Requests`
-    *   `Lessons` (for solutions to errors/bugs or other useful learnings)
     *   Task status (Completed, In Progress, Future)
     *   `Implementation Plan`
     *   `Relevant Files`
-*   For task files, follow the structure provided in PLAN mode (typically including sections like "Background and Motivation", "Key Challenges and Analysis", "High-level Task Breakdown", "Project Status Board", "Completed Tasks", "In Progress Tasks", "Future Tasks", "Implementation Plan", "Relevant Files", "Lessons", "ACT mode Feedback or Assistance Requests", "User Specified Lessons").
+*   For task files, follow the structure provided in PLAN mode (typically including sections like "Background and Motivation", "Key Challenges and Analysis", "High-level Task Breakdown", "Project Status Board", "Completed Tasks", "In Progress Tasks", "Future Tasks", "Implementation Plan", "Relevant Files", "ACT mode Feedback or Assistance Requests").
 
 ## General Guidelines
 
