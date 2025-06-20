@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>贪吃蛇游戏</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        canvas {
+            border: 2px solid #333;
+            background-color: #fff;
+        }
+
+        #scoreDisplay {
+            font-size: 24px;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        #gameOverScreen {
+            display: none;
+            /* Initially hidden */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.75);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        #gameOverScreen h2 {
+            margin-top: 0;
+        }
+
+        #gameOverScreen button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #333;
+            background-color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        #gameOverScreen button:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="gameCanvas"></canvas>
+    <div id="scoreDisplay">分数: 0</div>
+
+    <div id="gameOverScreen">
+        <h2>游戏结束!</h2>
+        <p id="finalScore"></p>
+        <button id="restartButton">重新开始</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const gameOverScreen = document.getElementById('gameOverScreen');
+        const finalScoreDisplay = document.getElementById('finalScore');
+        const restartButton = document.getElementById('restartButton');
+
+        const gridSize = 20; // 每个格子的大小
+        canvas.width = 400;  // 画布宽度
+        canvas.height = 400; // 画布高度
+        const tileCountX = canvas.width / gridSize;
+        const tileCountY = canvas.height / gridSize;
+
+        let snake;
+        let food;
+        let dx;
+        let dy;
+        let score;
+        let gameSpeed;
+        let gameIntervalId;
+        let isGameOver;
+        let changingDirection;
+
+        function initializeGame() {
+            snake = [{ x: Math.floor(tileCountX / 2), y: Math.floor(tileCountY / 2) }]; // 蛇头在中间
+            dx = 0; // 初始向右移动
+            dy = 0;    // 初始不动，等待第一次按键
+            score = 0;
+            gameSpeed = 150; // 毫秒
+            isGameOver = false;
+            changingDirection = false;
+
+            updateScoreDisplay();
+            placeFood();
+
+            gameOverScreen.style.display = 'none';
+
+            if (gameIntervalId) {
+                clearInterval(gameIntervalId);
+            }
+            gameIntervalId = setInterval(gameLoop, gameSpeed);
+        }
+
+        function gameLoop() {
+            if (isGameOver) {
+                return;
+            }
+
+            changingDirection = false; // Reset for next input
+            clearCanvas();
+
+            // Only process movement and related logic if a direction is set
+            if (dx !== 0 || dy !== 0) {
+                const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+                snake.unshift(head); // Add new head
+
+                if (checkCollision()) { // checkCollision uses snake[0] which is the newHead
+                    isGameOver = true;
+                    showGameOverScreen();
+                    return;
+                }
+
+                // Check if food is eaten
+                if (snake[0].x === food.x && snake[0].y === food.y) {
+                    score += 10;
+                    updateScoreDisplay();
+                    placeFood();
+                    // Snake grows naturally because tail is not popped
+                } else {
+                    snake.pop(); // Not eaten, so remove tail to maintain length
+                }
+            }
+
+            drawSnake(); // Draws snake in its current state (moved or not)
+            drawFood();
+        }
+
+        function clearCanvas() {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function drawSnakePart(snakePart, color) {
+            ctx.fillStyle = color;
+            ctx.fillRect(snakePart.x * gridSize, snakePart.y * gridSize, gridSize - 1, gridSize - 1);
+            // ctx.strokeStyle = '#333'; // Optional: adds border to snake parts
+            // ctx.strokeRect(snakePart.x * gridSize, snakePart.y * gridSize, gridSize, gridSize);
+        }
+
+        function drawSnake() {
+            snake.forEach((part, index) => {
+                const color = index === 0 ? '#33cc33' : '#66ff66'; // Darker green for head
+                drawSnakePart(part, color);
+            });
+        }
+
+        function drawFood() {
+            ctx.fillStyle = 'red';
+            ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 1, gridSize - 1);
+            // ctx.strokeStyle = '#8B0000'; // Optional: adds border to food
+            // ctx.strokeRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
+        }
+
+        function placeFood() {
+            let newFoodX, newFoodY;
+            let foodOnSnake;
+            do {
+                foodOnSnake = false;
+                newFoodX = Math.floor(Math.random() * tileCountX);
+                newFoodY = Math.floor(Math.random() * tileCountY);
+                for (let i = 0; i < snake.length; i++) {
+                    if (snake[i].x === newFoodX && snake[i].y === newFoodY) {
+                        foodOnSnake = true;
+                        break;
+                    }
+                }
+            } while (foodOnSnake);
+            food = { x: newFoodX, y: newFoodY };
+        }
+
+        function checkCollision() {
+            const head = snake[0];
+
+            // Wall collision
+            if (head.x < 0 || head.x >= tileCountX || head.y < 0 || head.y >= tileCountY) {
+                return true;
+            }
+
+            // Self collision (check against rest of the body)
+            // Only check if dx or dy is not 0 (i.e., snake has moved)
+            // Or if snake length > 1 (to avoid collision with self if not moving but somehow head got on body)
+            if (dx !== 0 || dy !== 0) { // only check self-collision if snake is moving
+                for (let i = 1; i < snake.length; i++) {
+                    if (head.x === snake[i].x && head.y === snake[i].y) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        function updateScoreDisplay() {
+            scoreDisplay.textContent = `分数: ${score}`;
+        }
+
+        function changeDirection(event) {
+            if (changingDirection) return;
+
+            const keyPressed = event.key;
+            const goingUp = dy === -1;
+            const goingDown = dy === 1;
+            const goingLeft = dx === -1;
+            const goingRight = dx === 1;
+
+            // Start game on first arrow key press if not moving
+            if (dx === 0 && dy === 0) {
+                if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(keyPressed)) {
+                    // Set initial direction but don't allow immediate opposite of a non-existent previous direction
+                }
+            }
+
+
+            if ((keyPressed === 'ArrowUp' || keyPressed.toLowerCase() === 'w') && !goingDown) {
+                dx = 0; dy = -1;
+            } else if ((keyPressed === 'ArrowDown' || keyPressed.toLowerCase() === 's') && !goingUp) {
+                dx = 0; dy = 1;
+            } else if ((keyPressed === 'ArrowLeft' || keyPressed.toLowerCase() === 'a') && !goingRight) {
+                dx = -1; dy = 0;
+            } else if ((keyPressed === 'ArrowRight' || keyPressed.toLowerCase() === 'd') && !goingLeft) {
+                dx = 1; dy = 0;
+            } else {
+                return; // Not an arrow key or an invalid move
+            }
+            changingDirection = true;
+        }
+
+        function showGameOverScreen() {
+            clearInterval(gameIntervalId);
+            finalScoreDisplay.textContent = `你的最终得分是: ${score}`;
+            gameOverScreen.style.display = 'block';
+        }
+
+        restartButton.addEventListener('click', initializeGame);
+        document.addEventListener('keydown', changeDirection);
+
+        // Start the game
+        initializeGame();
+    </script>
+</body>
+
+</html>
