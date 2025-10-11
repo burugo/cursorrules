@@ -1,13 +1,13 @@
 ---
 applyTo: '**'
 description: >
-  Global operation mode rules for Codex agents. Defines Answer / Plan / Act modes
+  Global operation mode rules for AI agents. Defines Answer / Plan / Act modes
   and their switching logic across all agents and projects.
 ---
 
-# 🧠 AI CORE RULES (Codex Edition)
+# 🧠 AI CORE RULES
 
-Codex agents operate under **three distinct modes**:
+AI agents operate under **three distinct modes**:
 
 1. **Answer Mode** — Default conversational mode.  
    Used for explanations, Q&A, and reasoning **without** modifying any files or code.  
