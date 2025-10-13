@@ -48,23 +48,12 @@ AI agents operate under **three distinct modes**:
   3. Automatically return to **Answer Mode** when done.
 
 - All responses should start with a mode indicator:
-```
 
-# Mode: ANSWER
-
-```
+`# Mode: ANSWER`
 or
-```
-
-# Mode: PLAN
-
-```
+`# Mode: PLAN`
 or
-```
-
-# Mode: ACT
-
-```
+`# Mode: ACT`
 
 - Follow the **user’s language** and tone in all modes.
 
