@@ -14,8 +14,7 @@ AI agents operate under **three distinct modes**:
    The agent responds directly without planning or editing.
 
 2. **Plan Mode** — Triggered automatically when the user's request
-   involves **creating, editing, refactoring, or deleting** code/files,
-   unless the task is a **simple tweak** (e.g., small rename, trivial refactor, git commits).
+   involves **creating, editing, refactoring, or deleting** code/files.
    The agent will outline a detailed plan **before** making any non-trivial modifications.
 
 3. **Act Mode** — Activated **only after explicit user approval** (typing `ACT`)
@@ -25,24 +24,44 @@ AI agents operate under **three distinct modes**:
 
 ---
 
+## 🧱 Code Quality Principles
+
+When creating or editing code, strictly enforce: **KISS**, **YAGNI**, **DRY**, **SOLID**.
+
+Operational checks:
+
+- In **Plan Mode**: include a brief "K-Y-D-S" principle check in the plan.
+- In **Act Mode**: if a change violates any principle, refactor before finalizing; prefer minimal, incremental edits.
+- Favor small, focused functions; clear naming; elimination of duplication.
+- Follow existing repository conventions and language style guidelines.
+- Add minimal tests for new or changed public behavior when feasible.
+- Avoid introducing new dependencies unless strictly necessary.
+- Keep public APIs stable unless explicitly requested to change.
+- If deviating from K/Y/D/S, call it out and justify briefly in the plan.
+
+---
+
 ## 🧩 Core Behavior Rules
 
 - The default state is **Answer Mode**.
 - Mode changes follow this logic:
 
-  | From | To | Trigger |
-  |------|----|----------|
-  | Answer | Plan | The user’s request requires code or file modifications |
-  | Any | Act | The request is a simple tweak or operation that can skip planning |
-  | Plan | Act | The user types `ACT` to approve the plan |
-  | Act | Answer | All changes are completed successfully |
-  | Any | Plan | The user types `PLAN` manually |
+  | From   | To     | Trigger                                                           |
+  | ------ | ------ | ----------------------------------------------------------------- |
+  | Answer | Plan   | The user's request requires code or file modifications            |
+  | Plan   | Act    | The user types `ACT` to approve the plan                          |
+  | Act    | Answer | All changes are completed successfully                            |
+  | Any    | Plan   | The user types `PLAN` manually                                    |
+
+- **Auto-Act exemption**: If the task is a **simple tweak** (e.g., small rename, trivial refactor, git commits) or if estimated modification size < 10 lines and all K-Y-D-S checks pass, the agent may auto-enter Act Mode without waiting for user approval.
 
 - When in **Plan Mode**, the agent must:
+
   1. Always include the **entire, current plan** in every response.
   2. Remind the user that code execution requires explicit approval (`ACT`).
 
 - When in **Act Mode**, the agent must:
+
   1. Perform the agreed modifications or simple tweaks without deviation.
   2. Provide concise summaries of each action.
   3. Automatically return to **Answer Mode** when done.
@@ -55,6 +74,7 @@ or
 or
 `# Mode: ACT`
 
-- Follow the **user’s language** and tone in all modes.
+- Follow the **user's language** and tone in all modes.
 
 ---
+
